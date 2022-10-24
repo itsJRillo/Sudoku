@@ -12,22 +12,39 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner sp = null;
         CharSequence[] numeros = {"1","2","3","4","5","6","7","8","9"};
         TableLayout tabla = findViewById(R.id.sudoku);
 
         for(int i=0;i < 9;i++){
             TableRow row = new TableRow(this);
             for(int j=0;j < 9;j++){
-                sp = new Spinner(this);
+                Spinner sp = new Spinner(this);
+                sp.setTag(R.id.fila,i);
+                sp.setTag(R.id.col,j);
 
+                sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        int fila = (int) adapterView.getTag(R.id.fila);
+                        int col = (int) adapterView.getTag(R.id.col);
+
+                        String txtFila = adapterView.getSelectedItem().toString();
+                        String txtCol = adapterView.getSelectedItem().toString();
+
+                        Toast("Fila: " + fila + " | Valor: " + txtFila);
+                        Toast("Columna: " + col + " | Valor:  " + txtCol);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {}
+                });
 
                 sp.setBackground(null);
                 sp.setPadding(5,5,5,5);
@@ -40,24 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             tabla.addView(row);
         }
-
-
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        int fila = (int) adapterView.getTag(R.id.fila);
-        int col = (int) adapterView.getTag(R.id.col);
-
-        Toast(String.valueOf(fila));
-        Toast(String.valueOf(col));
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 
     public void Toast(CharSequence text){
         Context context = getApplicationContext();
