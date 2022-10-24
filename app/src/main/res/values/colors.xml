@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="raisin">#272932</color>
+    <color name="steel_blue">#4D7EA8</color>
+    <color name="medium_champagne">#E4D6A7</color>
+    <color name="maximum_yellow">#E9B44C</color>
+    <color name="rufous">#9B2915</color>
+
 </resources>

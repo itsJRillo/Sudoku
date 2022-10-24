@@ -3,8 +3,13 @@ package UF1.sudoku;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -17,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
         CharSequence[] numeros = {"1","2","3","4","5","6","7","8","9"};
@@ -26,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             TableRow row = new TableRow(this);
             for(int j=0;j < 9;j++){
                 Spinner sp = new Spinner(this);
+
                 sp.setTag(R.id.fila,i);
                 sp.setTag(R.id.col,j);
 
@@ -36,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                         int col = (int) adapterView.getTag(R.id.col);
 
                         String txtFila = adapterView.getSelectedItem().toString();
-                        String txtCol = adapterView.getSelectedItem().toString();
 
                         Toast("Fila: " + fila + " | Columna: " + col + "\nValor: " + txtFila);
                     }
