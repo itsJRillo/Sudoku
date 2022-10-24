@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
                         String txtFila = adapterView.getSelectedItem().toString();
                         String txtCol = adapterView.getSelectedItem().toString();
 
-                        Toast("Fila: " + fila + " | Valor: " + txtFila);
-                        Toast("Columna: " + col + " | Valor:  " + txtCol);
+                        Toast("Fila: " + fila + " | Columna: " + col + "\nValor: " + txtFila);
                     }
 
                     @Override
