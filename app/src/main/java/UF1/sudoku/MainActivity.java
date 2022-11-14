@@ -19,52 +19,78 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SudokuModel model = new SudokuModel();
+    private Spinner[][] matriu = new Spinner[9][9];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        CharSequence[] numeros = {"1","2","3","4","5","6","7","8","9"};
+        CharSequence[] numeros = {"0","1","2","3","4","5","6","7","8","9"};
         TableLayout tabla = findViewById(R.id.sudoku);
 
         for(int i=0;i < 9;i++){
             TableRow row = new TableRow(this);
+
             for(int j=0;j < 9;j++){
                 Spinner sp = new Spinner(this);
-
+                sp.setBackground(null);
+                sp.setPadding(5,5,5,5);
+                sp.setSelection(1);
+                sp.setTag("bug init");
                 sp.setTag(R.id.fila,i);
                 sp.setTag(R.id.col,j);
 
                 sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i2, long l) {
+
                         int fila = (int) adapterView.getTag(R.id.fila);
                         int col = (int) adapterView.getTag(R.id.col);
 
-                        String txtFila = adapterView.getSelectedItem().toString();
+                        if (sp.getTag().equals("bug init")){
+                            return;
+                        }
 
-                        Toast("Fila: " + fila + " | Columna: " + col + "\nValor: " + txtFila);
+                        // String txtFila = adapterView.getSelectedItem().toString();
+                        // Toast("Fila: " + fila + " | Columna: " + col + "\nValor: " + txtFila);
+
+                        if(model.setVal(i2,fila,col)>-1){
+                            refrescaGUI();
+                        }
+                        else{
+                            matriu[fila][col].setSelection(0);
+                        }
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {}
                 });
 
-                sp.setBackground(null);
-                sp.setPadding(5,5,5,5);
+
+
                 ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
                         android.R.layout.simple_spinner_item, numeros);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sp.setAdapter(adapter);
-
-                row.addView(sp);
+                this.matriu[i][j] = sp;
+                row.addView(this.matriu[i][j]);
             }
+
             tabla.addView(row);
         }
+        refrescaGUI();
     }
 
+    private void refrescaGUI(){
+        for(int i=0;i<9;i++) {
+            for (int j = 0; j < 9; j++) {
+                matriu[i][j].setSelection(model.getVal(i,j));
+            }
+        }
+    }
 
     public void Toast(CharSequence text){
         Context context = getApplicationContext();
